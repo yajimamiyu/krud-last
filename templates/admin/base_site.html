@@ -1,0 +1,36 @@
+{% extends "admin/base.html" %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        社内申請システム
+    </a>
+</h1>
+{% endblock %}
+
+
+{% block nav-global %}
+<a href="{% url 'dashboard' %}"
+   style="
+   background:#417690;
+   color:white;
+   padding:8px 15px;
+   border-radius:5px;
+   text-decoration:none;
+   margin-right:10px;
+   ">
+    📊 ダッシュボードへ
+</a>
+{% endblock %}
+
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+#content-related {
+    display:none;
+}
+</style>
+
+{% endblock %}
