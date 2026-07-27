@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ログイン</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+<h1>社内申請システム</h1>
+
+<form method="post">
+
+{% csrf_token %}
+
+<p>
+ユーザー名：
+<input type="text" name="username">
+</p>
+
+<p>
+パスワード：
+<input type="password" name="password">
+</p>
+
+<button class="login-button" type="submit">
+ログイン
+</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
