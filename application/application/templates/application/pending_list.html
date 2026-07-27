@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>承認待ち一覧</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body>
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="message {{ message.tags }}">
+    {{ message }}
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<h1>承認待ち一覧</h1>
+
+
+{% for app in applications %}
+
+<div class="application-card">
+
+<p>
+種類：
+{{ app.get_application_type_display }}
+</p>
+
+<p>
+件名：
+{{ app.title }}
+</p>
+
+<p>
+申請者：
+{{ app.user.username }}
+</p>
+
+<p>
+申請日：
+{{ app.created_at|date:"Y年m月d日" }}
+</p>
+
+<p>
+内容：
+{{ app.content }}
+</p>
+
+
+<a class="approve-button" href="/approve/{{ app.id }}/?next=pending">
+    承認
+</a>
+
+<a class="reject-button" href="/reject/{{ app.id }}/?next=pending">
+    却下
+</a>
+
+
+</div>
+
+{% empty %}
+
+<p class="no-pending">
+    現在、承認待ちの申請はありません。
+</p>
+
+{% endfor %}
+
+
+<br>
+
+<div class="dashboard-buttons">
+
+<a href="{% url 'application_list' %}" class="dashboard-button">
+申請一覧へ戻る
+</a>
+
+<a href="{% url 'dashboard' %}" class="dashboard-button">
+ダッシュボードへ戻る
+</a>
+
+</div>
+
+<div class="pagination">
+
+{% if applications.has_previous %}
+<a href="?page={{ applications.previous_page_number }}">
+前へ
+</a>
+{% endif %}
+
+
+<span>
+{{ applications.number }} / {{ applications.paginator.num_pages }}
+</span>
+
+
+{% if applications.has_next %}
+<a href="?page={{ applications.next_page_number }}">
+次へ
+</a>
+{% endif %}
+
+</div>
+
+
+</body>
+
+</html>

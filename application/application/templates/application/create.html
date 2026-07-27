@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>申請</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body>
+
+<div class="application-form">
+
+<h1>申請入力</h1>
+
+<form method="post">
+
+{% csrf_token %}
+
+{{ form.as_p }}
+
+<div class="button-area">
+
+    <a class="back-button" href="{% url 'home' %}">
+    戻る
+    </a>
+
+    <button class="application-button" type="submit">
+        申請する
+    </button>
+
+</div>
+
+</form>
+
+</div>
+
+</body>
+</html>

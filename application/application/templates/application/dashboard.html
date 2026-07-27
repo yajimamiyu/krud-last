@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>管理ダッシュボード</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body class="dashboard-body">
+
+<h1 class="dashboard-title">社内申請システム</h1>
+<h2 class="dashboard-title">管理ダッシュボード</h2>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>総申請数</h3>
+
+<h1>{{ total }}</h1>
+
+</div>
+
+{% if pending > 0 %}
+
+<a href="{% url 'pending_list' %}" class="card-link">
+
+<div class="card pending-card-alert">
+
+<h3>承認待ち</h3>
+
+<h1 class="pending-alert">
+    {{ pending }}
+</h1>
+
+<p class="pending-message">
+    確認してください
+</p>
+
+</div>
+
+</a>
+
+{% else %}
+
+<div class="card">
+
+<h3>承認待ち</h3>
+
+<h1>
+    {{ pending }}
+</h1>
+
+</div>
+
+{% endif %}
+<div class="card">
+
+<h3>承認済み</h3>
+
+<h1>{{ approved }}</h1>
+
+</div>
+
+<div class="card">
+
+<h3>却下</h3>
+
+<h1>{{ rejected }}</h1>
+
+</div>
+
+</div>
+
+<h2>最近の申請</h2>
+
+<table class="dashboard-table">
+
+<tr>
+
+<th>件名</th>
+<th>申請者</th>
+<th>種類</th>
+<th>申請日</th>
+<th>状態</th>
+
+</tr>
+
+{% for app in recent %}
+
+<tr>
+
+<td>
+    <a href="{% url 'application_detail' app.id %}">
+        {{ app.title }}
+    </a>
+</td>
+
+<td>{{ app.user.username }}</td>
+
+<td>{{ app.get_application_type_display }}</td>
+
+<td>
+{{ app.created_at|date:"Y年m月d日" }}
+</td>
+
+<td>{{ app.get_status_display }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<div class="dashboard-buttons">
+
+<a href="/admin" class="dashboard-button">
+ホームへ戻る
+</a>
+
+<a href="/list/" class="dashboard-button">
+申請一覧へ
+</a>
+
+</div>
+
+</body>
+
+</html>

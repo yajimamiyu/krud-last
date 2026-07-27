@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>申請詳細</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body>
+
+<h1>申請詳細</h1>
+
+
+<div class="application-card">
+
+<p>
+申請者：
+{{ application.user.username }}
+</p>
+
+<p>
+種類：
+{{ application.get_application_type_display }}
+</p>
+
+<p>
+件名：
+{{ application.title }}
+</p>
+
+<p>
+内容：
+{{ application.content }}
+</p>
+
+<p>
+申請日：
+{{ application.created_at|date:"Y年m月d日" }}
+</p>
+
+<p>
+状態：
+
+{% if application.status == "pending" %}
+<span style="color: orange;">
+    {{ application.get_status_display }}
+</span>
+
+{% elif application.status == "approved" %}
+<span style="color: green;">
+    {{ application.get_status_display }}
+</span>
+
+{% elif application.status == "rejected" %}
+<span style="color: red;">
+    {{ application.get_status_display }}
+</span>
+
+{% endif %}
+
+</p>
+
+</div>
+
+
+<br>
+<div class="dashboard-buttons">
+
+<a href="{% url 'application_list' %}" class="dashboard-button">
+申請一覧へ戻る
+</a>
+
+<a href="{% url 'dashboard' %}" class="dashboard-button">
+ダッシュボードへ戻る
+</a>
+
+</div>
+
+
+</body>
+
+</html>

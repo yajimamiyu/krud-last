@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>申請一覧</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body>
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="message {{ message.tags }}">
+    {{ message }}
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<h1>申請一覧</h1>
+
+<div class="dashboard-buttons">
+
+
+<a href="{% url 'dashboard' %}" class="dashboard-button">
+ダッシュボードへ戻る
+</a>
+
+</div>
+
+
+{% for app in applications %}
+
+{% if app.status == "pending" %}
+
+<div class="application-card pending-card">
+
+{% else %}
+
+<div class="application-card">
+
+{% endif %}
+
+<p>
+種類：
+{{ app.get_application_type_display }}
+</p>
+
+<p>
+件名：
+{{ app.title }}
+</p>
+
+<p>
+内容：
+{{ app.content }}
+</p>
+
+<p>
+状態：
+
+{% if app.status == "pending" %}
+<span style="color: orange;">
+    {{ app.get_status_display }}
+</span>
+
+{% elif app.status == "approved" %}
+<span style="color: green;">
+    {{ app.get_status_display }}
+</span>
+
+{% elif app.status == "rejected" %}
+<span style="color: red;">
+    {{ app.get_status_display }}
+</span>
+
+{% endif %}
+
+</p>
+{% if user.is_staff %}
+
+<a class="approve-button" href="/approve/{{ app.id }}/?next=list">
+    承認
+</a>
+
+<a class="reject-button" href="/reject/{{ app.id }}/?next=list">
+    却下
+</a>
+
+{% endif %}
+
+<p>
+申請者：
+{{ app.user.username }}
+</p>
+
+</div>
+
+
+{% endfor %}
+
+
+<div class="pagination">
+
+{% if applications.has_previous %}
+<a href="?page={{ applications.previous_page_number }}">
+前へ
+</a>
+{% endif %}
+
+
+<span>
+{{ applications.number }} / {{ applications.paginator.num_pages }}
+</span>
+
+
+{% if applications.has_next %}
+<a href="?page={{ applications.next_page_number }}">
+次へ
+</a>
+{% endif %}
+
+</div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ホーム</title>
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'application/style.css' %}">
+
+</head>
+
+<body>
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="message {{ message.tags }}">
+    {{ message }}
+</div>
+
+{% endfor %}
+
+{% endif %}
+
+<div class="home-container">
+
+<h1>社内申請システム</h1>
+
+<p>{{ user.username }} さん、ようこそ</p>
+
+<a class="home-button" href="/create/">
+    申請する
+</a>
+
+<a class="home-button" href="{% url 'my_application_list' %}">
+    申請履歴
+</a>
+
+<form action="{% url 'logout' %}" method="post">
+    {% csrf_token %}
+    <button class="home-button" type="submit">
+        ログアウト
+    </button>
+</form>
+
+</div>
+
+
+
+</body>
+</html>
